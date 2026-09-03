@@ -1,4 +1,4 @@
-export default function studymaterialsPage() {
+export default function StudyMaterialsPage() {
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4 capitalize">study materials</h1>
@@ -6,3 +6,4 @@ export default function studymaterialsPage() {
     </div>
   );
 }
+
