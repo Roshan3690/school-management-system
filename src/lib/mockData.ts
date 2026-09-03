@@ -10,3 +10,5 @@ export * from "./mock/results";
 export * from "./mock/timetable";
 export * from "./mock/subjects";
 export * from "./mock/fees";
+export * from "./mock/users";
+export * from "./mock/notifications";

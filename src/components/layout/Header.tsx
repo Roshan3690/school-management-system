@@ -2,7 +2,9 @@
 
 import { Bell, User, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { navigation } from "@/lib/navigation";
+import { mockCurrentUser, mockNotifications } from "@/lib/mockData";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -10,6 +12,7 @@ interface HeaderProps {
 
 export function Header({ onMenuClick }: HeaderProps) {
   const pathname = usePathname();
+  const unreadCount = mockNotifications.filter(n => !n.isRead).length;
   
   // Find current page title
   const currentNavItem = navigation.find(
@@ -34,19 +37,28 @@ export function Header({ onMenuClick }: HeaderProps) {
           </h1>
         </div>
         <div className="ml-4 flex items-center md:ml-6 space-x-4">
-          <button className="bg-white dark:bg-gray-900 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <Link href="/notifications" className="relative bg-white dark:bg-gray-900 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <span className="sr-only">View notifications</span>
             <Bell className="h-6 w-6" aria-hidden="true" />
-          </button>
+            {unreadCount > 0 && (
+              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-900" />
+            )}
+          </Link>
 
-          {/* Profile dropdown placeholder */}
+          {/* Profile link */}
           <div className="relative">
-            <button className="max-w-xs bg-white dark:bg-gray-900 flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-              <span className="sr-only">Open user menu</span>
-              <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                <User className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+            <Link href="/profile" className="max-w-xs bg-white dark:bg-gray-900 flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <span className="sr-only">Open user profile</span>
+              <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-gray-700">
+                {mockCurrentUser.avatarUrl ? (
+                  <img src={mockCurrentUser.avatarUrl} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                    {mockCurrentUser.firstName.charAt(0)}{mockCurrentUser.lastName.charAt(0)}
+                  </span>
+                )}
               </div>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
