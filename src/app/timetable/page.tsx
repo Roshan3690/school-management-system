@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Filter, Calendar, Clock, BookOpen, User, Plus, X, CheckCircle2 } from "lucide-react";
 import { mockTimetable, mockTeachers } from "@/lib/mockData";
 import { TimetableEntry } from "@/types/timetable";
+import { getSubjectsForClass } from "@/lib/subjectHelper";
 
 export default function TimetablePage() {
   const [classFilter, setClassFilter] = useState("9");
@@ -221,7 +222,12 @@ export default function TimetablePage() {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
-                          <input required type="text" className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2 border" />
+                          <select required className="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2 border">
+                            <option value="">Select Subject</option>
+                            {getSubjectsForClass(classFilter, streamFilter).map(subject => (
+                              <option key={subject.id} value={subject.name}>{subject.name}</option>
+                            ))}
+                          </select>
                         </div>
                       </div>
 

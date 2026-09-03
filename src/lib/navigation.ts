@@ -12,6 +12,7 @@ import {
   CalendarDays,
   Banknote, 
   Settings,
+  Book,
   LucideIcon
 } from "lucide-react";
 
@@ -26,6 +27,7 @@ export const navigation: NavigationItem[] = [
   { name: "Students", href: "/students", icon: Users },
   { name: "Teachers", href: "/teachers", icon: GraduationCap },
   { name: "Classes", href: "/classes", icon: School },
+  { name: "Subjects", href: "/subjects", icon: Book },
   { name: "Attendance", href: "/attendance", icon: CalendarCheck },
   { name: "Timetable", href: "/timetable", icon: CalendarDays },
   { name: "Assignments", href: "/assignments", icon: BookOpenCheck },

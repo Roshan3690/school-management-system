@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { mockTeachers } from "@/lib/mockData";
+import { getSubjectsForClass } from "@/lib/subjectHelper";
 
 export function AssignmentForm() {
   const router = useRouter();
@@ -74,16 +75,9 @@ export function AssignmentForm() {
               <div className="mt-1">
                 <select required id="subject" name="subject" className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2 border">
                   <option value="">Select Subject</option>
-                  <option>Mathematics</option>
-                  <option>Physics</option>
-                  <option>Chemistry</option>
-                  <option>Biology</option>
-                  <option>English</option>
-                  <option>Gujarati</option>
-                  <option>Economics</option>
-                  <option>Accountancy</option>
-                  <option>Business Studies</option>
-                  <option>Computer Science</option>
+                  {getSubjectsForClass(classLevel, stream).map(subject => (
+                    <option key={subject.id} value={subject.name}>{subject.name}</option>
+                  ))}
                 </select>
               </div>
             </div>
