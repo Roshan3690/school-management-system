@@ -1,4 +1,5 @@
 export type StudentStatus = "Active" | "Inactive";
+export type AcademicStream = "General" | "Science" | "Commerce";
 
 export interface Student {
   id: string;
@@ -7,6 +8,7 @@ export interface Student {
   lastName: string;
   class: string;
   section: string;
+  stream: AcademicStream;
   dateOfBirth: string;
   gender: "Male" | "Female" | "Other";
   contactNumber: string;

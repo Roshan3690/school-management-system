@@ -64,6 +64,12 @@ export default async function StudentDetailsPage({ params }: { params: Promise<{
               </dd>
             </div>
             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Stream</dt>
+              <dd className="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+                {student.stream}
+              </dd>
+            </div>
+            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Date of Birth</dt>
               <dd className="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
                 {student.dateOfBirth}

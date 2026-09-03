@@ -7,6 +7,18 @@ import { CheckCircle2 } from "lucide-react";
 export function StudentForm() {
   const router = useRouter();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [studentClass, setStudentClass] = useState("");
+  const [stream, setStream] = useState("General");
+
+  const handleClassChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newClass = e.target.value;
+    setStudentClass(newClass);
+    if (newClass === "9" || newClass === "10") {
+      setStream("General");
+    } else if (newClass === "11" || newClass === "12") {
+      setStream("");
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,13 +86,19 @@ export function StudentForm() {
             <div className="sm:col-span-2">
               <label htmlFor="class" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Class</label>
               <div className="mt-1">
-                <select required id="class" name="class" className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2 border">
+                <select 
+                  required 
+                  id="class" 
+                  name="class" 
+                  value={studentClass}
+                  onChange={handleClassChange}
+                  className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2 border"
+                >
                   <option value="">Select Class</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
                 </select>
               </div>
             </div>
@@ -93,6 +111,26 @@ export function StudentForm() {
                   <option>A</option>
                   <option>B</option>
                   <option>C</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="stream" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Stream</label>
+              <div className="mt-1">
+                <select 
+                  required 
+                  id="stream" 
+                  name="stream" 
+                  value={stream}
+                  onChange={(e) => setStream(e.target.value)}
+                  disabled={studentClass === "9" || studentClass === "10"}
+                  className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md p-2 border disabled:opacity-50 disabled:bg-gray-100 disabled:dark:bg-gray-800"
+                >
+                  <option value="">Select Stream</option>
+                  <option value="General">General</option>
+                  <option value="Science">Science</option>
+                  <option value="Commerce">Commerce</option>
                 </select>
               </div>
             </div>
