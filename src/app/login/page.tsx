@@ -24,8 +24,11 @@ export default function LoginPage() {
     });
 
     if (error) {
-      if (error.message.toLowerCase().includes("invalid login credentials")) {
+      const msg = error.message.toLowerCase();
+      if (msg.includes("invalid login credentials")) {
         setError("Invalid email or password.");
+      } else if (msg.includes("email not confirmed")) {
+        setError("Please confirm your email address before signing in. Check your inbox for a confirmation email.");
       } else {
         setError("Unable to sign in. Please try again.");
       }
@@ -34,22 +37,12 @@ export default function LoginPage() {
     }
 
     if (data?.session) {
-      // Explicitly verify the session is fully available to the client
-      const { data: userData, error: userError } = await supabase.auth.getUser();
-      
-      if (userError || !userData?.user) {
-        setError("Unable to verify authentication session. Please try again.");
-        setLoading(false);
-        return;
-      }
-
-      // Clear the Next.js router cache to ensure the middleware is hit with the new cookie
+      // Session obtained — clear router cache and navigate to dashboard
       router.refresh();
-      
-      // Navigate to the dashboard
       router.push("/");
     } else {
-      setError("Unable to verify authentication session. Please try again.");
+      // No session returned without error = email confirmation required
+      setError("Please confirm your email address before signing in. Check your inbox for a confirmation email.");
       setLoading(false);
     }
   };
