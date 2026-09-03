@@ -6,13 +6,15 @@ import Link from "next/link";
 import { navigation } from "@/lib/navigation";
 import { mockCurrentUser, mockNotifications } from "@/lib/mockData";
 
+import { useNotificationContext } from "@/contexts/NotificationContext";
+
 interface HeaderProps {
   onMenuClick?: () => void;
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
   const pathname = usePathname();
-  const unreadCount = mockNotifications.filter(n => !n.isRead).length;
+  const { unreadCount } = useNotificationContext();
   
   // Find current page title
   const currentNavItem = navigation.find(

@@ -1,4 +1,4 @@
-export type NotificationCategory = "Attendance" | "Assignment" | "Exam" | "Fee" | "Announcement" | "General";
+export type NotificationCategory = "Attendance" | "Assignment" | "Exam" | "Fee" | "Announcement" | "Study Material" | "General";
 
 export interface Notification {
   id: string;

@@ -58,7 +58,7 @@ export const mockNotifications: Notification[] = [
     id: "notif-7",
     title: "New Study Material",
     description: "Chemistry Chapter 4 notes have been uploaded.",
-    category: "Assignment",
+    category: "Study Material",
     timestamp: new Date(Date.now() - 1000 * 60 * 60 * 96).toISOString(), // 4 days ago
     isRead: true,
     link: "/study-materials"

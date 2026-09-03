@@ -17,14 +17,18 @@ export const metadata: Metadata = {
   description: "Modern school management made simple.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+import { NotificationProvider } from "@/contexts/NotificationContext";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <AppLayout>{children}</AppLayout>
+        <NotificationProvider>
+          <AppLayout>{children}</AppLayout>
+        </NotificationProvider>
       </body>
     </html>
   );

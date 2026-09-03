@@ -6,11 +6,11 @@ import { Bell, Check, Filter, Info, BookOpen, AlertCircle, FileText, Megaphone, 
 import { mockNotifications } from "@/lib/mockData";
 import { Notification } from "@/types/notification";
 
-export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
-  const [filter, setFilter] = useState("All");
+import { useNotificationContext } from "@/contexts/NotificationContext";
 
-  const unreadCount = notifications.filter(n => !n.isRead).length;
+export default function NotificationsPage() {
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationContext();
+  const [filter, setFilter] = useState("All");
 
   const filteredNotifications = notifications.filter(n => {
     if (filter === "All") return true;
@@ -19,17 +19,18 @@ export default function NotificationsPage() {
   });
 
   const handleMarkAsRead = (id: string) => {
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+    markAsRead(id);
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+    markAllAsRead();
   };
 
   const getIconForCategory = (category: string) => {
     switch(category) {
       case "Attendance": return <CalendarCheck className="h-5 w-5 text-purple-500" />;
       case "Assignment": return <BookOpen className="h-5 w-5 text-blue-500" />;
+      case "Study Material": return <BookOpen className="h-5 w-5 text-indigo-500" />;
       case "Exam": return <FileText className="h-5 w-5 text-orange-500" />;
       case "Fee": return <AlertCircle className="h-5 w-5 text-red-500" />;
       case "Announcement": return <Megaphone className="h-5 w-5 text-green-500" />;
@@ -91,7 +92,7 @@ export default function NotificationsPage() {
           </div>
           <div className="flex-1 ml-4 overflow-x-auto pb-1 -mb-1 hide-scrollbar">
             <div className="flex gap-2">
-              {["All", "Unread", "Attendance", "Assignment", "Exam", "Fee", "Announcement", "General"].map(f => (
+              {["All", "Unread", "Attendance", "Assignment", "Study Material", "Exam", "Fee", "Announcement", "General"].map(f => (
                 <button
                   key={f}
                   onClick={() => setFilter(f)}
