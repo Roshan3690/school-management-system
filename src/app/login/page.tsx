@@ -24,7 +24,11 @@ export default function LoginPage() {
     });
 
     if (error) {
-      setError(error.message);
+      if (error.message.toLowerCase().includes("invalid login credentials")) {
+        setError("Invalid email or password.");
+      } else {
+        setError("Unable to sign in. Please try again.");
+      }
       setLoading(false);
     } else {
       router.push("/");
