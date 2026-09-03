@@ -31,8 +31,9 @@ export default function LoginPage() {
       }
       setLoading(false);
     } else {
-      router.push("/");
-      router.refresh();
+      // Force a full page reload to ensure cookies are sent to the server 
+      // and middleware properly processes the new session
+      window.location.href = "/";
     }
   };
 

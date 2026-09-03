@@ -28,22 +28,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const supabase = createClient();
 
   useEffect(() => {
-    // Fetch initial session and profile
+    let mounted = true;
+
     const initAuth = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         
-        if (session?.user) {
-          setUser(session.user);
-          await fetchProfile(session.user);
-        } else {
-          setUser(null);
-          setProfile(null);
+        if (mounted) {
+          if (session?.user) {
+            setUser(session.user);
+            await fetchProfile(session.user);
+          } else {
+            setUser(null);
+            setProfile(null);
+          }
+          setLoading(false);
         }
       } catch (error) {
         console.error("Auth init error:", error);
-      } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
 
@@ -52,6 +55,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (!mounted) return;
+        
+        // Skip INITIAL_SESSION as it is handled by getSession in initAuth
+        if (event === 'INITIAL_SESSION') return;
+
         if (session?.user) {
           setUser(session.user);
           await fetchProfile(session.user);
@@ -64,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     );
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, []);
