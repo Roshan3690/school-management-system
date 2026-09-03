@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 
@@ -10,6 +11,11 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathname = usePathname();
+  
+  if (pathname === '/login') {
+    return <div className="min-h-screen bg-gray-50 dark:bg-gray-900">{children}</div>;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100 dark:bg-gray-950">

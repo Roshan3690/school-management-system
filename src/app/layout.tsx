@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 import { NotificationProvider } from "@/contexts/NotificationContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -26,9 +27,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <NotificationProvider>
-          <AppLayout>{children}</AppLayout>
-        </NotificationProvider>
+        <AuthProvider>
+          <NotificationProvider>
+            <AppLayout>{children}</AppLayout>
+          </NotificationProvider>
+        </AuthProvider>
       </body>
     </html>
   );
