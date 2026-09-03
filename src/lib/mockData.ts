@@ -5,3 +5,6 @@ export * from "./mock/assignments";
 export * from "./mock/attendance";
 export * from "./mock/studyMaterials";
 export * from "./mock/announcements";
+export * from "./mock/exams";
+export * from "./mock/results";
+export * from "./mock/timetable";
