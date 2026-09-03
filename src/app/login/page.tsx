@@ -18,7 +18,7 @@ export default function LoginPage() {
     setError(null);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -30,10 +30,16 @@ export default function LoginPage() {
         setError("Unable to sign in. Please try again.");
       }
       setLoading(false);
-    } else {
+      return;
+    }
+
+    if (data?.session) {
       // Force a full page reload to ensure cookies are sent to the server 
       // and middleware properly processes the new session
       window.location.href = "/";
+    } else {
+      setError("Unable to verify authentication session. Please try again.");
+      setLoading(false);
     }
   };
 
