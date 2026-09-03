@@ -34,9 +34,20 @@ export default function LoginPage() {
     }
 
     if (data?.session) {
-      // Force a full page reload to ensure cookies are sent to the server 
-      // and middleware properly processes the new session
-      window.location.href = "/";
+      // Explicitly verify the session is fully available to the client
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !userData?.user) {
+        setError("Unable to verify authentication session. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // Clear the Next.js router cache to ensure the middleware is hit with the new cookie
+      router.refresh();
+      
+      // Navigate to the dashboard
+      router.push("/");
     } else {
       setError("Unable to verify authentication session. Please try again.");
       setLoading(false);

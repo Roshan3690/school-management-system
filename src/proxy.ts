@@ -49,19 +49,27 @@ export async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     const redirectResponse = NextResponse.redirect(url)
-    // Copy cookies from supabaseResponse to redirectResponse
-    supabaseResponse.cookies.getAll().forEach(cookie => {
-      redirectResponse.cookies.set(cookie.name, cookie.value)
+    
+    // Preserve any updated cookies from the supabase client
+    supabaseResponse.headers.forEach((value, key) => {
+      if (key.toLowerCase() === 'set-cookie') {
+        redirectResponse.headers.append(key, value)
+      }
     })
+    
     return redirectResponse
   } else if (user && isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
     const redirectResponse = NextResponse.redirect(url)
-    // Copy cookies from supabaseResponse to redirectResponse
-    supabaseResponse.cookies.getAll().forEach(cookie => {
-      redirectResponse.cookies.set(cookie.name, cookie.value)
+    
+    // Preserve any updated cookies from the supabase client
+    supabaseResponse.headers.forEach((value, key) => {
+      if (key.toLowerCase() === 'set-cookie') {
+        redirectResponse.headers.append(key, value)
+      }
     })
+    
     return redirectResponse
   }
 
